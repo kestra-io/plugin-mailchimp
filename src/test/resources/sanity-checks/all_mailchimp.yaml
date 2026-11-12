@@ -1,0 +1,14 @@
+id: all_mailchimp
+namespace: sanitychecks.plugin-mailchimp
+
+tasks:
+  - id: loop
+    type: io.kestra.plugin.core.flow.Loop
+    values:
+      - mailchimp_batch_subscribe_empty
+      - mailchimp_rejects_foreign_base_url
+    tasks:
+      - id: subflow
+        type: io.kestra.plugin.core.flow.Subflow
+        flowId: "{{ item.value }}"
+        namespace: "{{ flow.namespace }}"
